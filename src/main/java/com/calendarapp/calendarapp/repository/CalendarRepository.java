@@ -14,8 +14,17 @@ public class CalendarRepository {
     public static Map<Long,Calendar> getAllCalendars() {
         return calendarRepository;
     }
-    public static void addCalendar(Long id, Calendar calendar) {
-        calendarRepository.put(id,calendar);
+    public static void addCalendar(Calendar calendar) {
+        calendarRepository.put(calendar.getId(),calendar);
+    }
+
+    public static Calendar getCalendar(Long id){
+        return calendarRepository.get(id);
+    }
+
+    public static boolean deleteCalendar(Long id){
+        calendarRepository.remove(id);
+        return true;
     }
 
 }

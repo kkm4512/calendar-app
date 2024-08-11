@@ -18,7 +18,17 @@ public class CalendarController {
     }
 
     @PostMapping("/save")
-    public CalendarResponseDto createCalendar(@RequestBody CalendarRequestDto calendarRequestDto){
+    public CalendarResponseDto saveCalendar(@RequestBody CalendarRequestDto calendarRequestDto){
         return calendarService.saveCalendar(calendarRequestDto);
+    }
+
+    @PutMapping("/update/{id}")
+    public CalendarResponseDto updateCalendar(@PathVariable Long id, @RequestBody  CalendarRequestDto calendarRequestDto){
+        return calendarService.updateCalendar(id,calendarRequestDto);
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public boolean deleteCalendar(@PathVariable Long id){
+        return calendarService.deleteCalendar(id);
     }
 }
