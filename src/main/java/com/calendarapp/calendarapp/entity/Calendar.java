@@ -25,4 +25,8 @@ public class Calendar {
         this.createAt = calendarRequestDto.getCreateAt();
         this.updateAt = calendarRequestDto.getUpdateAt();
     }
+
+    public void updateCalendar(CalendarRequestDto calendarRequestDto){
+        this.todo = calendarRequestDto.getTodo();
+    }
 }

@@ -15,4 +15,14 @@ public class CalendarRequestDto {
     private String password;
     private String createAt;
     private String updateAt;
+
+    @Override
+    public String toString() {
+        return "CalendarRequestDto{" +
+                "todo='" + todo + '\'' +
+                ", password='" + password + '\'' +
+                ", createAt='" + createAt + '\'' +
+                ", updateAt='" + updateAt + '\'' +
+                '}';
+    }
 }
