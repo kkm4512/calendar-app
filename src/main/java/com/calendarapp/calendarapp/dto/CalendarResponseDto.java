@@ -13,13 +13,16 @@ import java.time.LocalDate;
 @AllArgsConstructor
 public class CalendarResponseDto {
     private Long id;
+    private String author;
     private String todo;
     private String password;
-    private String createAt;
-    private String updateAt;
+    private LocalDate createAt;
+    private LocalDate updateAt;
 
+    //Calendar 객체로 받은 데이터를, Dto 로 바꿔줌
     public CalendarResponseDto(Calendar calendar) {
         this.id = calendar.getId();
+        this.author = calendar.getAuthor();
         this.todo = calendar.getTodo();
         this.password = calendar.getPassword();
         this.createAt = calendar.getCreateAt();

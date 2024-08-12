@@ -14,19 +14,31 @@ import java.time.LocalDate;
 @AllArgsConstructor
 public class Calendar {
     private Long id;
+    private String author;
     private String todo;
     private String password;
-    private String createAt;
-    private String updateAt;
+    private LocalDate createAt;
+    private LocalDate updateAt;
 
     public Calendar(CalendarRequestDto calendarRequestDto) {
+        this.author = calendarRequestDto.getAuthor();
         this.todo = calendarRequestDto.getTodo();
         this.password = calendarRequestDto.getPassword();
-        this.createAt = calendarRequestDto.getCreateAt();
-        this.updateAt = calendarRequestDto.getUpdateAt();
     }
 
     public void updateCalendar(CalendarRequestDto calendarRequestDto){
         this.todo = calendarRequestDto.getTodo();
+    }
+
+    @Override
+    public String toString() {
+        return "Calendar{" +
+                "id=" + id +
+                ", author='" + author + '\'' +
+                ", todo='" + todo + '\'' +
+                ", password='" + password + '\'' +
+                ", createAt=" + createAt +
+                ", updateAt=" + updateAt +
+                '}';
     }
 }
