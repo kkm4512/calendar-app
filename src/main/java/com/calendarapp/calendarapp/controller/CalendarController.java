@@ -1,6 +1,7 @@
 package com.calendarapp.calendarapp.controller;
 
 import com.calendarapp.calendarapp.dto.CalendarRequestDto;
+import com.calendarapp.calendarapp.dto.CalendarRequestUpdateDto;
 import com.calendarapp.calendarapp.dto.CalendarResponseDto;
 import com.calendarapp.calendarapp.service.CalendarService;
 import org.springframework.web.bind.annotation.*;
@@ -40,8 +41,8 @@ public class CalendarController {
     }
 
     @PutMapping("/update/{id}")
-    public CalendarResponseDto updateCalendar(@PathVariable Long id, @RequestBody  CalendarRequestDto calendarRequestDto){
-        return calendarService.updateCalendar(id,calendarRequestDto);
+    public CalendarResponseDto updateCalendar(@PathVariable Long id, @RequestBody CalendarRequestUpdateDto calendarRequestUpdateDto){
+        return calendarService.updateCalendar(id,calendarRequestUpdateDto);
     }
 
     @DeleteMapping("/delete/{id}")
