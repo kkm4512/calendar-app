@@ -6,13 +6,33 @@ import com.calendarapp.calendarapp.dto.CalendarRequestUpdateDto;
 import com.calendarapp.calendarapp.dto.CalendarResponseDto;
 import com.calendarapp.calendarapp.entity.Calendar;
 import com.calendarapp.calendarapp.repository.CalendarRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
+import org.springframework.stereotype.Service;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.time.Instant;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
+@Service
 public class CalendarService {
     private static Long id = 0L;
+    private final JdbcTemplate jdbcTemplate;
+
+    public CalendarService(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+    }
 
     //일정 전체 조회
     public List<CalendarResponseDto> getAllCalendars() {
@@ -47,13 +67,34 @@ public class CalendarService {
 
     //일정 생성
     public CalendarResponseDto saveCalendar(CalendarRequestDto calendarRequestDto) {
-        LocalDate now = LocalDate.now();
-        Calendar calendar =  new Calendar(calendarRequestDto);
-        calendar.setId(++id);
-        calendar.setCreateAt(now);
-        calendar.setUpdateAt(now);
-        CalendarRepository.addCalendar(calendar);
-        return new CalendarResponseDto(calendar);
+        LocalDateTime now = LocalDateTime.now();
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+
+        //JDBC Template
+        String insertSql = "INSERT INTO calendar (author,todo,password,createAt,updateAt) VALUES (?, ?, ?, ?, ?)";
+        jdbcTemplate.update(insertSql,
+                calendarRequestDto.getAuthor(),
+                calendarRequestDto.getTodo(),
+                calendarRequestDto.getPassword(),
+                now,
+                now
+        );
+        // 생성된 ID
+        Long generatedId = keyHolder.getKey().longValue();
+
+        // 생성된 ID를 사용하여 DB에서 레코드 조회
+        String selectSql = "SELECT * FROM calendar WHERE id = ?";
+        Map<String, Object> result = jdbcTemplate.queryForMap(selectSql, generatedId);
+
+        // CalendarResponseDto 객체 생성 및 반환
+        CalendarResponseDto calendarResponseDto = new CalendarResponseDto();
+        calendarResponseDto.setId((Long) result.get("id"));
+        calendarResponseDto.setAuthor((String) result.get("author"));
+        calendarResponseDto.setTodo((String) result.get("todo"));
+        calendarResponseDto.setPassword((String) result.get("password"));
+        calendarResponseDto.setCreateAt(((Timestamp) result.get("createAt")).toLocalDateTime());
+        calendarResponseDto.setUpdateAt(((Timestamp) result.get("updateAt")).toLocalDateTime());
+        return calendarResponseDto;
     }
 
     //일정 업데이트
@@ -64,7 +105,7 @@ public class CalendarService {
          */
         Calendar calendar = CalendarRepository.getCalendar(id);
         calendar.updateCalendar(calendarRequestUpdateDto);
-        calendar.setUpdateAt(LocalDate.now());
+        calendar.setUpdateAt(LocalDateTime.now());
         return new CalendarResponseDto(calendar);
     }
 

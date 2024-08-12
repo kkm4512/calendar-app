@@ -5,6 +5,8 @@ import com.calendarapp.calendarapp.dto.CalendarRequestDto;
 import com.calendarapp.calendarapp.dto.CalendarRequestUpdateDto;
 import com.calendarapp.calendarapp.dto.CalendarResponseDto;
 import com.calendarapp.calendarapp.service.CalendarService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -12,7 +14,14 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/calendar")
 public class CalendarController {
-    private final CalendarService calendarService = new CalendarService();
+    private final JdbcTemplate jdbcTemplate;
+    private final CalendarService calendarService;
+
+    @Autowired
+    public CalendarController(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+        this.calendarService = new CalendarService(jdbcTemplate);
+    }
 
     @GetMapping("/findAll")
     public List<CalendarResponseDto> getAllCalendars(){

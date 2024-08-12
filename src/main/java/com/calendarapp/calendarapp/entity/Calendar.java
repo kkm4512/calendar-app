@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 //실제 Calendar Entity 에 저장시킬 캘린더
 //나중에 실제 db 연결할때는 createdAt,updatedAt에 어노테이션 달아주기
@@ -18,8 +19,8 @@ public class Calendar {
     private String author;
     private String todo;
     private String password;
-    private LocalDate createAt;
-    private LocalDate updateAt;
+    private LocalDateTime createAt;
+    private LocalDateTime updateAt;
 
     public Calendar(CalendarRequestDto calendarRequestDto) {
         this.author = calendarRequestDto.getAuthor();
@@ -30,17 +31,5 @@ public class Calendar {
     public void updateCalendar(CalendarRequestUpdateDto calendarRequestUpdateDto){
         this.todo = calendarRequestUpdateDto.getTodo();
         this.author = calendarRequestUpdateDto.getAuthor();
-    }
-
-    @Override
-    public String toString() {
-        return "Calendar{" +
-                "id=" + id +
-                ", author='" + author + '\'' +
-                ", todo='" + todo + '\'' +
-                ", password='" + password + '\'' +
-                ", createAt=" + createAt +
-                ", updateAt=" + updateAt +
-                '}';
     }
 }
