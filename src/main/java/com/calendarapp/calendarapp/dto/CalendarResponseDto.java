@@ -3,14 +3,19 @@ package com.calendarapp.calendarapp.dto;
 import com.calendarapp.calendarapp.entity.Calendar;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.Date;
 
 //클라이언트로 보내줄 캘린더 DTO
 @Getter
 @Setter
 @AllArgsConstructor
+@NoArgsConstructor
 public class CalendarResponseDto {
     private Long id;
     private String author;
@@ -28,4 +33,5 @@ public class CalendarResponseDto {
         this.createAt = calendar.getCreateAt();
         this.updateAt = calendar.getUpdateAt();
     }
+
 }
