@@ -1,6 +1,7 @@
 package com.calendarapp.calendarapp.entity;
 
 import com.calendarapp.calendarapp.dto.CalendarRequestDto;
+import com.calendarapp.calendarapp.dto.CalendarRequestUpdateDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -26,8 +27,9 @@ public class Calendar {
         this.password = calendarRequestDto.getPassword();
     }
 
-    public void updateCalendar(CalendarRequestDto calendarRequestDto){
-        this.todo = calendarRequestDto.getTodo();
+    public void updateCalendar(CalendarRequestUpdateDto calendarRequestUpdateDto){
+        this.todo = calendarRequestUpdateDto.getTodo();
+        this.author = calendarRequestUpdateDto.getAuthor();
     }
 
     @Override
