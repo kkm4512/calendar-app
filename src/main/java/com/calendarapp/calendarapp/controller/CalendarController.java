@@ -1,5 +1,6 @@
 package com.calendarapp.calendarapp.controller;
 
+import com.calendarapp.calendarapp.dto.CalendarRequestDeleteDto;
 import com.calendarapp.calendarapp.dto.CalendarRequestDto;
 import com.calendarapp.calendarapp.dto.CalendarRequestUpdateDto;
 import com.calendarapp.calendarapp.dto.CalendarResponseDto;
@@ -40,13 +41,16 @@ public class CalendarController {
         return calendarService.saveCalendar(calendarRequestDto);
     }
 
+    //할일내용, 담당자명 수정
+    //수정 진행시, 내부적으로 updateAt 자동 업데이트
     @PutMapping("/update/{id}")
     public CalendarResponseDto updateCalendar(@PathVariable Long id, @RequestBody CalendarRequestUpdateDto calendarRequestUpdateDto){
         return calendarService.updateCalendar(id,calendarRequestUpdateDto);
     }
 
     @DeleteMapping("/delete/{id}")
-    public boolean deleteCalendar(@PathVariable Long id){
-        return calendarService.deleteCalendar(id);
+    public boolean deleteCalendar(@PathVariable Long id, @RequestBody CalendarRequestDeleteDto calendarRequestDeleteDto){
+        System.out.println(calendarRequestDeleteDto);
+        return calendarService.deleteCalendar(id,calendarRequestDeleteDto);
     }
 }

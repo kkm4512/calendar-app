@@ -1,5 +1,6 @@
 package com.calendarapp.calendarapp.service;
 
+import com.calendarapp.calendarapp.dto.CalendarRequestDeleteDto;
 import com.calendarapp.calendarapp.dto.CalendarRequestDto;
 import com.calendarapp.calendarapp.dto.CalendarRequestUpdateDto;
 import com.calendarapp.calendarapp.dto.CalendarResponseDto;
@@ -68,7 +69,7 @@ public class CalendarService {
     }
 
     //일정 삭제
-    public boolean deleteCalendar(Long id) {
+    public boolean deleteCalendar(Long id, CalendarRequestDeleteDto calendarRequestDeleteDto) {
         return CalendarRepository.deleteCalendar(id);
     }
 }
