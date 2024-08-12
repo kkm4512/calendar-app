@@ -1,6 +1,5 @@
 package com.calendarapp.calendarapp.controller;
 
-import com.calendarapp.calendarapp.dto.CalendarRequestDeleteDto;
 import com.calendarapp.calendarapp.dto.CalendarRequestDto;
 import com.calendarapp.calendarapp.dto.CalendarRequestUpdateDto;
 import com.calendarapp.calendarapp.dto.CalendarResponseDto;
@@ -14,12 +13,10 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/calendar")
 public class CalendarController {
-    private final JdbcTemplate jdbcTemplate;
     private final CalendarService calendarService;
 
     @Autowired
     public CalendarController(JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
         this.calendarService = new CalendarService(jdbcTemplate);
     }
 
@@ -57,9 +54,9 @@ public class CalendarController {
         return calendarService.updateCalendar(id,calendarRequestUpdateDto);
     }
 
+    //할일 삭제
     @DeleteMapping("/delete/{id}")
-    public boolean deleteCalendar(@PathVariable Long id, @RequestBody CalendarRequestDeleteDto calendarRequestDeleteDto){
-        System.out.println(calendarRequestDeleteDto);
-        return calendarService.deleteCalendar(id,calendarRequestDeleteDto);
+    public boolean deleteCalendar(@PathVariable Long id){
+        return calendarService.deleteCalendar(id);
     }
 }

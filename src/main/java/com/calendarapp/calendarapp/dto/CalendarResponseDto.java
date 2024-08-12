@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
@@ -20,8 +21,8 @@ public class CalendarResponseDto {
     private String author;
     private String todo;
     private String password;
-    private LocalDateTime createAt;
-    private LocalDateTime updateAt;
+    private LocalDate createAt;
+    private LocalDate updateAt;
 
     //Calendar 객체로 받은 데이터를, Dto 로 바꿔줌
     public CalendarResponseDto(Calendar calendar) {

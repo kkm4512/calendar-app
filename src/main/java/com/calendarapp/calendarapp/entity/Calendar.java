@@ -2,10 +2,13 @@ package com.calendarapp.calendarapp.entity;
 
 import com.calendarapp.calendarapp.dto.CalendarRequestDto;
 import com.calendarapp.calendarapp.dto.CalendarRequestUpdateDto;
+import com.calendarapp.calendarapp.dto.CalendarResponseDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.cglib.core.Local;
 
+import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
@@ -19,8 +22,8 @@ public class Calendar {
     private String author;
     private String todo;
     private String password;
-    private LocalDateTime createAt;
-    private LocalDateTime updateAt;
+    private LocalDate createAt;
+    private LocalDate updateAt;
 
     public Calendar(CalendarRequestDto calendarRequestDto) {
         this.author = calendarRequestDto.getAuthor();
@@ -31,5 +34,14 @@ public class Calendar {
     public void updateCalendar(CalendarRequestUpdateDto calendarRequestUpdateDto){
         this.todo = calendarRequestUpdateDto.getTodo();
         this.author = calendarRequestUpdateDto.getAuthor();
+    }
+
+    public Calendar(CalendarResponseDto calendarResponseDto) {
+        this.id = calendarResponseDto.getId();
+        this.author = calendarResponseDto.getAuthor();
+        this.todo = calendarResponseDto.getTodo();
+        this.password = calendarResponseDto.getPassword();
+        this.createAt = calendarResponseDto.getCreateAt();
+        this.updateAt = calendarResponseDto.getUpdateAt();
     }
 }
