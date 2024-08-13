@@ -62,7 +62,7 @@ public class CalendarRepository {
 
     // 수정일로 일정 조회
     // 반환할 때 updateAt 기준으로 내림차순 정렬
-    public List<CalendarResponseDto> getByUpdateAt(String updateAt) {
+    public List<CalendarResponseDto> getAllByUpdateAt(String updateAt) {
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         LocalDate formatUpdateAt = LocalDate.parse(updateAt, dateTimeFormatter);
         String sql = "SELECT * FROM calendar WHERE DATE(updateAt) = ? ORDER BY updateAt DESC";
@@ -83,7 +83,7 @@ public class CalendarRepository {
     }
 
     //담당자명으로 일정 조회
-    public List<CalendarResponseDto> getByAuthor(String author) {
+    public List<CalendarResponseDto> getAllByAuthor(String author) {
         String sql =" SELECT * from calendar WHERE author = ?";
         return jdbcTemplate.query(sql,new Object[]{author}, new RowMapper<>() {
             @Override

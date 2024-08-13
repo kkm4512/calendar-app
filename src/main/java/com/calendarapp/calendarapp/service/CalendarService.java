@@ -30,12 +30,12 @@ public class CalendarService {
     // 수정일로 일정 조회
     // 반환할 때 updateAt 기준으로 내림차순 정렬
     public List<CalendarResponseDto> getCalendarByUpdateAt(String updateAt) {
-        return calendarRepository.getByUpdateAt(updateAt);
+        return calendarRepository.getAllByUpdateAt(updateAt);
     }
 
     //담당자명으로 일정 조회
     public List<CalendarResponseDto> getCalendarByAuthor(String author) {
-        return calendarRepository.getByAuthor(author);
+        return calendarRepository.getAllByAuthor(author);
     }
 
     //일정 생성
