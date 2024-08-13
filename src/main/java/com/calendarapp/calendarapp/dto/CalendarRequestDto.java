@@ -2,14 +2,13 @@ package com.calendarapp.calendarapp.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.Setter;
 
-//클라이언트로부터 받을 캘린더 DTO
+
 @Getter
-@Setter
 @AllArgsConstructor
 public class CalendarRequestDto {
-    private String author;
-    private String todo;
-    private String password;
+    //사용자로부터 받아야할 정보 목록들
+    String memberName;
+    String password;
+    String todo;
 }

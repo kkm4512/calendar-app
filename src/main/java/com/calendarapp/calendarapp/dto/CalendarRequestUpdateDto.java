@@ -8,7 +8,6 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 public class CalendarRequestUpdateDto {
-    private String author;
-    private String todo;
-    private String password;
+    String memberName;
+    String todo;
 }
