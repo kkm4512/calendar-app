@@ -3,6 +3,8 @@ package com.calendarapp.calendarapp.dto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+import java.time.LocalDate;
+
 
 @Getter
 @AllArgsConstructor
@@ -11,4 +13,5 @@ public class CalendarRequestDto {
     String memberName;
     String password;
     String todo;
+    String email;
 }
