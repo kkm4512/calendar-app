@@ -22,7 +22,7 @@ public class CalendarRepository {
     }
 
     // 일정 전체 조회
-    public List<CalendarResponseDto> getAllCalendars() {
+    public List<CalendarResponseDto> findAll() {
         String sql = "SELECT * FROM calendar";
         return jdbcTemplate.query(sql, new RowMapper<CalendarResponseDto>() {
             @Override
@@ -42,7 +42,7 @@ public class CalendarRepository {
     }
 
     // 일정 단일 조회
-    public CalendarResponseDto getCalendarById(Long id) {
+    public CalendarResponseDto getById(Long id) {
         String sql = "SELECT * FROM calendar WHERE id = ?";
         return jdbcTemplate.queryForObject(sql, new Object[]{id}, new RowMapper<>() {
             @Override
@@ -62,7 +62,7 @@ public class CalendarRepository {
 
     // 수정일로 일정 조회
     // 반환할 때 updateAt 기준으로 내림차순 정렬
-    public List<CalendarResponseDto> getCalendarByUpdateAt(String updateAt) {
+    public List<CalendarResponseDto> getByUpdateAt(String updateAt) {
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         LocalDate formatUpdateAt = LocalDate.parse(updateAt, dateTimeFormatter);
         String sql = "SELECT * FROM calendar WHERE DATE(updateAt) = ? ORDER BY updateAt DESC";
@@ -83,7 +83,7 @@ public class CalendarRepository {
     }
 
     //담당자명으로 일정 조회
-    public List<CalendarResponseDto> getCalendarByAuthor(String author) {
+    public List<CalendarResponseDto> getByAuthor(String author) {
         String sql =" SELECT * from calendar WHERE author = ?";
         return jdbcTemplate.query(sql,new Object[]{author}, new RowMapper<>() {
             @Override
@@ -102,7 +102,7 @@ public class CalendarRepository {
     }
 
     //일정 생성
-    public CalendarResponseDto saveCalendar(CalendarRequestDto calendarRequestDto) {
+    public CalendarResponseDto save(CalendarRequestDto calendarRequestDto) {
         LocalDate now = LocalDate.now();
         Calendar calendar = new Calendar(calendarRequestDto);
         calendar.setCreateAt(now);
@@ -125,13 +125,13 @@ public class CalendarRepository {
     }
 
     //일정 업데이트
-    public CalendarResponseDto updateCalendar(Long id, CalendarRequestUpdateDto calendarRequestUpdateDto) {
+    public CalendarResponseDto update(Long id, CalendarRequestUpdateDto calendarRequestUpdateDto) {
         /**
          *  1. 일단 어떤 일정을 수정해올건지 Map 에서 찾아오고
          *  2. 해당 Map 안에 저장되있는거니까 Calendar 클래스니까, 그 클래스안에서 내용을 수정 할 수 있게 메서드들을 추가해두자
          *  3. 작성자,할일,업데이트(이건 자동으로)만 수정
          */
-        Calendar calendar = new Calendar(getCalendarById(id));
+        Calendar calendar = new Calendar(getById(id));
         calendar.updateCalendar(calendarRequestUpdateDto);
         calendar.setUpdateAt(LocalDate.now());
         String insertSql = "UPDATE calendar SET author = ?, todo = ?, updateAt = ? where id = ?";
@@ -147,7 +147,7 @@ public class CalendarRepository {
     }
 
     //일정 삭제
-    public boolean deleteCalendar(Long id) {
+    public boolean delete(Long id) {
         String sql = "DELETE FROM calendar WHERE id = ?";
         int rowsAffected = jdbcTemplate.update(sql, id);
         return rowsAffected > 0;

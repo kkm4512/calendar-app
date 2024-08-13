@@ -15,9 +15,9 @@ import java.util.List;
 public class CalendarController {
     private final CalendarService calendarService;
 
-    @Autowired
-    public CalendarController(JdbcTemplate jdbcTemplate) {
-        this.calendarService = new CalendarService(jdbcTemplate);
+    //생성자 하나이기떄문에 Autowired 생략
+    public CalendarController(CalendarService calendarService) {
+        this.calendarService = calendarService;
     }
 
     @GetMapping("/findAll")
