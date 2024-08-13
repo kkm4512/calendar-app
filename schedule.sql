@@ -1,11 +1,22 @@
-CREATE TABLE calendar
+create table Member
 (
-    id BIGINT AUTO_INCREMENT,
-    author varchar(100) NOT NULL,
-    todo varchar(500) NOT NULL,
-    password varchar(100) NOT NULL,
-    createAt DATE NOT NULL,
-    updateAt DATE NOT NULL,
-    PRIMARY KEY (id)
-)
+    memberId bigint auto_increment,
+    memberName varchar(100),
+    password varchar(100),
+    primary key (memberId)
+);
+
+create table Todo
+(
+    todoId bigint auto_increment,
+    memberId bigint,
+    todo varchar(500),
+    createdAt DATE,
+    updatedAt DATE,
+    primary key (todoId),
+    foreign key (memberId) references Member(memberId) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+
+
 

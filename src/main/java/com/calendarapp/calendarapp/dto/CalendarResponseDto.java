@@ -1,37 +1,26 @@
 package com.calendarapp.calendarapp.dto;
 
-import com.calendarapp.calendarapp.entity.Calendar;
+import com.calendarapp.calendarapp.entity.Member;
+import com.calendarapp.calendarapp.entity.Todo;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.sql.Timestamp;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.Date;
 
-//클라이언트로 보내줄 캘린더 DTO
 @Getter
 @Setter
 @AllArgsConstructor
+//전체 리스트 보여줄떄, db가 나뉘어져있어서 각각 set 해줘야해서 하나만듬
 @NoArgsConstructor
 public class CalendarResponseDto {
-    private Long id;
-    private String author;
-    private String todo;
+    private Long memberId;
+    private Long todoId;
+    private String memberName;
     private String password;
-    private LocalDate createAt;
-    private LocalDate updateAt;
-
-    //Calendar 객체로 받은 데이터를, Dto 로 바꿔줌
-    public CalendarResponseDto(Calendar calendar) {
-        this.id = calendar.getId();
-        this.author = calendar.getAuthor();
-        this.todo = calendar.getTodo();
-        this.password = calendar.getPassword();
-        this.createAt = calendar.getCreateAt();
-        this.updateAt = calendar.getUpdateAt();
-    }
+    private String todo;
+    private LocalDate createdAt;
+    private LocalDate updatedAt;
 
 }
