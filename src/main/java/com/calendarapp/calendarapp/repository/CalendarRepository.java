@@ -13,6 +13,7 @@ import org.springframework.stereotype.Repository;
 
 import java.sql.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.List;
@@ -29,15 +30,16 @@ public class CalendarRepository {
         //JDBC Template
         KeyHolder memberKey = new GeneratedKeyHolder();
         KeyHolder todoKey = new GeneratedKeyHolder();
-        String memberSql = "INSERT INTO member (memberName,password) VALUES (?, ?)";
-        String todoSql = "INSERT INTO todo (todo,createdAt,updatedAt, memberId) VALUES (?, ?, ?, ?)";
+        String memberSql = "INSERT INTO member (memberName,password, email) VALUES (?, ?, ?)";
         jdbcTemplate.update(connection -> {
             PreparedStatement ps = connection.prepareStatement(memberSql, Statement.RETURN_GENERATED_KEYS);
             ps.setString(1, calendarRequestDto.getMemberName());
             ps.setString(2, calendarRequestDto.getPassword());
+            ps.setString(3, calendarRequestDto.getEmail());
             return ps;
         }, memberKey);
         long memberId = memberKey.getKey().longValue();
+        String todoSql = "INSERT INTO todo (todo,createdAt,updatedAt, memberId) VALUES (?, ?, ?, ?)";
         jdbcTemplate.update(connection -> {
             PreparedStatement ps = connection.prepareStatement(todoSql, Statement.RETURN_GENERATED_KEYS);
             ps.setString(1, calendarRequestDto.getTodo());
@@ -51,7 +53,7 @@ public class CalendarRepository {
     }
 
     public List<CalendarResponseDto> findAll() {
-        String sql = "SELECT t.todoId, t.memberId, m.memberName, m.password, t.todo, t.createdAt, t.updatedAt " +
+        String sql = "SELECT t.todoId, t.memberId, m.memberName, m.password, m.email, t.todo, t.createdAt, t.updatedAt " +
                 "FROM todo t " +
                 "JOIN member m ON t.memberId = m.memberId";
         return jdbcTemplate.query(sql, new RowMapper<CalendarResponseDto>() {
@@ -63,18 +65,20 @@ public class CalendarRepository {
                 String memberName = rs.getString("memberName");
                 String password = rs.getString("password");
                 String todo = rs.getString("todo");
+                String email = rs.getString("email");
                 Timestamp timestampCreateAt = rs.getTimestamp("createdAt");
                 Timestamp timestampUpdateAt = rs.getTimestamp("updatedAt");
                 LocalDate createdAt = timestampCreateAt.toLocalDateTime().toLocalDate();
                 LocalDate updatedAt = timestampUpdateAt.toLocalDateTime().toLocalDate();
-                return new CalendarResponseDto(todoId, memberId, memberName, password, todo, createdAt, updatedAt);
+
+                return new CalendarResponseDto(todoId, memberId, memberName, password, todo, email,createdAt, updatedAt);
             };
         });
     }
 
     //memberId 기준으로 검색
     public CalendarResponseDto findById(Long id) {
-        String sql = "SELECT t.todoId, t.memberId, m.memberName, m.password, t.todo, t.createdAt, t.updatedAt " +
+        String sql = "SELECT t.todoId, t.memberId, m.memberName, m.password, m.email, t.todo, t.createdAt, t.updatedAt " +
                 "FROM todo t " +
                 "JOIN member m ON t.memberId = m.memberId " +
                 "WHERE t.todoId = ?";
@@ -86,11 +90,12 @@ public class CalendarRepository {
                 String memberName = rs.getString("memberName");
                 String password = rs.getString("password");
                 String todo = rs.getString("todo");
+                String email = rs.getString("email");
                 Timestamp timestampCreateAt = rs.getTimestamp("createdAt");
                 Timestamp timestampUpdateAt = rs.getTimestamp("updatedAt");
                 LocalDate createdAt = timestampCreateAt.toLocalDateTime().toLocalDate();
                 LocalDate updatedAt = timestampUpdateAt.toLocalDateTime().toLocalDate();
-                return new CalendarResponseDto(todoId, memberId, memberName, password, todo, createdAt, updatedAt);
+                return new CalendarResponseDto(todoId, memberId, memberName, password, todo, email,createdAt, updatedAt);
             }
         });
     }
@@ -98,7 +103,7 @@ public class CalendarRepository {
     public List<CalendarResponseDto> findAllByUpdatedAt(String updatedAt) {
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         LocalDate formatUpdateAt = LocalDate.parse(updatedAt, dateTimeFormatter);
-        String sql = "SELECT t.todoId, t.memberId, m.memberName, m.password, t.todo, t.createdAt, t.updatedAt " +
+        String sql = "SELECT t.todoId, t.memberId, m.memberName, m.password, m.email, t.todo, t.createdAt, t.updatedAt " +
                 "FROM todo t " +
                 "JOIN member m ON t.memberId = m.memberId " +
                 "WHERE t.updatedAt = ? " +
@@ -111,17 +116,18 @@ public class CalendarRepository {
                 String memberName = rs.getString("memberName");
                 String password = rs.getString("password");
                 String todo = rs.getString("todo");
+                String email = rs.getString("email");
                 Timestamp timestampCreateAt = rs.getTimestamp("createdAt");
                 Timestamp timestampUpdateAt = rs.getTimestamp("updatedAt");
                 LocalDate createdAt = timestampCreateAt.toLocalDateTime().toLocalDate();
                 LocalDate updatedAt = timestampUpdateAt.toLocalDateTime().toLocalDate();
-                return new CalendarResponseDto(todoId, memberId, memberName, password, todo, createdAt, updatedAt);
+                return new CalendarResponseDto(todoId, memberId, memberName, password, todo, email,createdAt, updatedAt);
             }
         });
     }
 
     public List<CalendarResponseDto> findAllByMemberName(String memberName) {
-        String sql = "SELECT t.todoId, t.memberId, m.memberName, m.password, t.todo, t.createdAt, t.updatedAt " +
+        String sql = "SELECT t.todoId, t.memberId, m.memberName, m.password, m.email, t.todo, t.createdAt, t.updatedAt " +
                 "FROM todo t " +
                 "JOIN member m ON t.memberId = m.memberId " +
                 "WHERE m.memberName = ?";
@@ -133,11 +139,12 @@ public class CalendarRepository {
                 String memberName = rs.getString("memberName");
                 String password = rs.getString("password");
                 String todo = rs.getString("todo");
+                String email = rs.getString("email");
                 Timestamp timestampCreateAt = rs.getTimestamp("createdAt");
                 Timestamp timestampUpdateAt = rs.getTimestamp("updatedAt");
                 LocalDate createdAt = timestampCreateAt.toLocalDateTime().toLocalDate();
                 LocalDate updatedAt = timestampUpdateAt.toLocalDateTime().toLocalDate();
-                return new CalendarResponseDto(todoId, memberId, memberName, password, todo, createdAt, updatedAt);
+                return new CalendarResponseDto(todoId, memberId, memberName, password, todo, email,createdAt, updatedAt);
             }
         });
     }

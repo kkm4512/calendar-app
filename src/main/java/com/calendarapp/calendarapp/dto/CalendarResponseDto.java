@@ -1,7 +1,5 @@
 package com.calendarapp.calendarapp.dto;
 
-import com.calendarapp.calendarapp.entity.Member;
-import com.calendarapp.calendarapp.entity.Todo;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,7 +18,7 @@ public class CalendarResponseDto {
     private String memberName;
     private String password;
     private String todo;
+    private String email;
     private LocalDate createdAt;
     private LocalDate updatedAt;
-
 }

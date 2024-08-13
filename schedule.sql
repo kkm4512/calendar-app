@@ -3,6 +3,7 @@ create table Member
     memberId bigint auto_increment,
     memberName varchar(100),
     password varchar(100),
+    email varchar(100),
     primary key (memberId)
 );
 
